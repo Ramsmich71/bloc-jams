@@ -79,8 +79,14 @@ var setCurrentAlbum = function(album) {
 var findParentByClassName = function(element, targetClass) {
   if(element) {
     var currentParent = element.parentElement;
-    while (currentParent.className != targetClass && currentParent.className != null) {
+    while (currentParent.className != null && currentParent.className != targetClass) {
       currentParent = currentParent.parentElement;
+    }
+
+    if (currentParent == null) {
+        console.log("No parent found");
+    } else if (currentParent.className == null) {
+        console.log("No parent found with that class name");
     }
     return currentParent;
   }
@@ -92,11 +98,14 @@ var getSongItem = function(element) {
     case 'ion-play':
     case 'ion-pause':
       return findParentByClassName(element, 'song-item-number');
+      break;
     case 'album-view-song-item':
       return element.querySelector('.song-item-number');
+      break;
     case 'song-item-title':
     case 'song-item-duration':
       return findParentByClassName(element, 'album-view-song-item').querySelector('.song-item-number');
+      break;
     case 'song-item-number':
       return element;
     default:
