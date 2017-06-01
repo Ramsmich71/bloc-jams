@@ -143,10 +143,6 @@ var updatePlayerBarSong = function() {
   $('.main-controls .play-pause').html(playerBarPauseButton);
 }
 
-var getSongNumberCell = function(number) {
-
-}
-
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
 var playerBarPlayButton = '<span class="ion-play"></span>';
@@ -163,15 +159,4 @@ $(document).ready(function() {
   setCurrentAlbum(albumPicasso);
   $previousButton.click(previousSong);
   $nextButton.click(nextSong);
-});
-
-  var album = [albumPicasso, albumMarconi, albumAnimal];
-  var index = 1;
-
-albumImage.addEventListener('click', function(event) {
-  setCurrentAlbum(album[index]);
-  index++;
-  if (index == album.length) {
-    index = 0;
-  }
 });
