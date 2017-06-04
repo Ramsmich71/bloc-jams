@@ -48,14 +48,14 @@ var createSongRow = function(songNumber, songName, songLength) {
         currentSoundFile.play();
         updatePlayerBarSong();
       } else if (currentlyPlayingSongNumber === songNumber) {
-        if (currentSoundFile.isPaused()) {
-          $(this).html(pauseButtonTemplate);
-          $('.main-controls .play-pause').html(playerBarPauseButton);
-          currentSoundFile.play();
+          if (currentSoundFile.isPaused()) {
+            $(this).html(pauseButtonTemplate);
+            $('.main-controls .play-pause').html(playerBarPauseButton);
+            currentSoundFile.play();
         } else {
-          $(this).html(playButtonTemplate);
-          $('.main-controls .play-pause').html(playerBarPlayButton);
-          currentSoundFile.pause();
+            $(this).html(playButtonTemplate);
+            $('.main-controls .play-pause').html(playerBarPlayButton);
+            currentSoundFile.pause();
         }
       }
     };
