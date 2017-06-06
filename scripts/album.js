@@ -23,7 +23,9 @@ var createSongRow = function(songNumber, songName, songLength) {
 
       if (currentlyPlayingSongNumber !== null) {
         var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
-        currentlyPlayingCell.html(currentlyPlayingSongNumber);
+        if (currentlyPlayingCell) {
+            currentlyPlayingCell.html(currentlyPlayingSongNumber);
+        }
       }
       if (currentlyPlayingSongNumber !== songNumber) {
         $(this).html(pauseButtonTemplate);
@@ -88,6 +90,43 @@ var setCurrentAlbum = function(album) {
 var trackIndex = function(album, song) {
   return album.songs.indexOf(song);
 };
+
+//switchSong(); //ext -> true = Next Song
+//switchSong(false); //next -> false = Prev Song
+
+var switchSong = function(next = true){
+  var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
+
+  if (next) {
+    currentSongIndex++;
+    if (currentSongIndex >= currentAlbum.songs.length) {
+      currentSongIndex = 0;
+    }
+  } else {
+    currentSongIndex--;
+    if (currentSongIndex < 0) {
+      currentSongIndex = currentAlbum.songs.length - 1;
+    }
+  }
+
+  var lastSongNumber = currentlyPlayingSongNumber;
+
+  currentlyPlayingSongNumber = currentSongIndex + 1;
+  currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
+
+  updatePlayerBarSong();
+
+  if(!next) {
+    $('.main-controls .play-pause').html(playerBarPauseButton);
+  }
+
+  var $newSongNumberCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
+  var $lastSongNumberCell = $('.song-item-number[data-song-number="' + lastSongNumber + '"]');
+
+  $newSongNumberCell.html(pauseButtonTemplate);
+  $lastSongNumberCell.html(lastSongNumber);
+}
+
 
 var nextSong = function() {
   var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
@@ -161,8 +200,8 @@ var $nextButton = $('.main-controls .next');
 
 $(document).ready(function() {
   setCurrentAlbum(albumPicasso);
-  $previousButton.click(previousSong);
-  $nextButton.click(nextSong);
+  $previousButton.click(switchSong(false));
+  $nextButton.click(switchSong);
 });
 
   var album = [albumPicasso, albumMarconi, albumAnimal];
