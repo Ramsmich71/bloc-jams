@@ -66,10 +66,11 @@ var createSongRow = function(songNumber, songName, songLength) {
             $(this).html(pauseButtonTemplate);
             $('.main-controls .play-pause').html(playerBarPauseButton);
             currentSoundFile.play();
+            updateSeekBarWhileSongPlays();
         } else {
+            currentSoundFile.pause();
             $(this).html(playButtonTemplate);
             $('.main-controls .play-pause').html(playerBarPlayButton);
-            currentSoundFile.pause();
         }
       }
     };
@@ -176,7 +177,7 @@ var setupSeekBars = function() {
            if ($seekBar.parent().attr('class') == 'seek-control') {
               seek(seekBarFillRatio * currentSoundFile.getDuration());
            } else {
-              setVolume(seekBarFillRatio);
+              setVolume(seekBarFillRatio * 100);
            }
 
            updateSeekPercentage($seekBar, seekBarFillRatio);
