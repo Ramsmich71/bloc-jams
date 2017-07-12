@@ -272,6 +272,7 @@ var setTotalTimeInPlayerBar = function(totalTime) {
   $('.currently-playing .total-time').text(filterTimeCode(totalTime));
 };
 
+
 var filterTimeCode = function(timeInSeconds) {
   var minutes = Math.floor(timeInSeconds / 60);
   timeInSeconds = Math.floor(timeInSeconds % 60);
