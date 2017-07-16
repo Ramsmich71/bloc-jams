@@ -49,18 +49,18 @@ var createSongRow = function(songNumber, songName, songLength) {
         currentlyPlayingCell.html(currentlyPlayingSongNumber);
       }
       if (currentlyPlayingSongNumber !== songNumber) {
+        $(this).html(pauseButtonTemplate);
         setSong(songNumber);
         currentSoundFile.play();
-        updateSeekBarWhileSongPlays();
         currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+        updateSeekBarWhileSongPlays();
+        updatePlayerBarSong();
 
         var $volumeFill = $('.volume .fill');
         var $volumeThumb = $('.volume .thumb');
         $volumeFill.width(currentVolume + '%');
         $volumeThumb.css({left: currentVolume + '%'});
 
-        $(this).html(pauseButtonTemplate);
-        updatePlayerBarSong();
       } else if (currentlyPlayingSongNumber === songNumber) {
           if (currentSoundFile.isPaused()) {
             $(this).html(pauseButtonTemplate);
@@ -68,9 +68,9 @@ var createSongRow = function(songNumber, songName, songLength) {
             currentSoundFile.play();
             updateSeekBarWhileSongPlays();
         } else {
-            currentSoundFile.pause();
             $(this).html(playButtonTemplate);
             $('.main-controls .play-pause').html(playerBarPlayButton);
+            currentSoundFile.pause();
         }
       }
     };
@@ -245,13 +245,14 @@ var previousSong = function() {
 };
 
 var togglePlayFromPlayerBar = function() {
+  var $currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
   if (currentSoundFile.isPaused()) {
-      $(this).html(pauseButtonTemplate);
-      $('.main-controls .play-pause').html(playerBarPauseButton);
+      $currentlyPlayingCell.html(pauseButtonTemplate);
+      $(this).html(playerBarPauseButton);
       currentSoundFile.play();
   } else {
-      $(this).html(playButtonTemplate);
-      $('.main-controls .play-pause').html(playerBarPlayButton);
+      $currentlyPlayingCell.html(playButtonTemplate);
+      $(this).html(playerBarPlayButton);
       currentSoundFile.pause();
   }
 };
